@@ -36,7 +36,7 @@ def enrich_with_cadastre(unit: dict) -> Asset | None:
 
 def main() -> None:
 	_LOG.info("Discovering top Madrid commercial streets…")
-	streets = get_top_commercial_streets(3)
+	streets = get_top_commercial_streets(10)
 
 	with ThreadPoolExecutor(max_workers=8) as pool:
 		for street in tqdm(streets, desc="Streets"):

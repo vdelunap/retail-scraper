@@ -3,6 +3,7 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 from dotenv import load_dotenv
 from models.asset import Asset
+from typing import Iterable
 
 load_dotenv()
 
@@ -50,3 +51,20 @@ def insert_asset(asset: Asset):
 			cursor.close()
 		if conn:
 			conn.close()
+
+def mark_vacant(ids: Iterable[str]) -> None:
+	"""
+	Set is_vacant = TRUE for the given asset UUIDs (or ref_catastral list
+	if you prefer – keep UUID for brevity).
+	"""
+	if not ids:
+		return
+
+	query = """
+		UPDATE assets
+		SET is_vacant = TRUE
+		WHERE id = ANY(%s::uuid[])
+	"""
+	with get_db_connection() as conn, conn.cursor() as cur:
+		cur.execute(query, (list(map(str, ids)),))
+		conn.commit()

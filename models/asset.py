@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 from uuid import UUID
+from datetime import date
 
 
 class Asset(BaseModel):
@@ -13,3 +14,5 @@ class Asset(BaseModel):
 	business_name: Optional[str] = None
 	surface_m2: Optional[int] = None
 	usage: Optional[str] = None
+	snapshot_date: date = date.today()
+	is_vacant: bool = False
