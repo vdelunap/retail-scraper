@@ -1,9 +1,10 @@
 import os
 import psycopg2
 from psycopg2.extras import RealDictCursor
+from typing import Iterable
 from dotenv import load_dotenv
 from models.asset import Asset
-from typing import Iterable
+
 
 load_dotenv()
 
