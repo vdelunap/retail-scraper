@@ -27,8 +27,8 @@ def detect() -> pd.DataFrame:
 	df = _fetch()
 	df["by_usage"] = df["usage"].isin(_USAGE_EMPTY)
 	df["by_regex"] = df["business_name"].fillna("").str.contains(_RE_VACANT, regex=True)
-	df["vacant_guess"] = df["by_usage"] | df["by_regex"]
-	return df[df["vacant_guess"] & (~df["is_vacant"])]  # only NEW ones
+	df["vacant_guess"] = df["by_usage"] | df["by_regex"] | df["is_vacant"]
+	return df[df["vacant_guess"]]
 
 
 def run(persist: bool = False) -> None:
@@ -36,7 +36,7 @@ def run(persist: bool = False) -> None:
     print(f"{len(vac)} potential vacancies")
     print(
         vac[["street_name", "address", "business_name"]]
-        .head(30)
+        .head(40)
         .to_markdown()
     )
 
